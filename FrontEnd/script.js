@@ -2,8 +2,8 @@
 async function getProjects() {
     const projects = await fetch("http://localhost:5678/api/works")
         .then(response => response.json())
-        .then(projects => Array.from(new Set(projects))) //verification et elimination des eventuels duplicats de travaux 
-        return projects
+        .then(projects => Array.from(new Set(projects))) //verification et elimination des eventuels duplicats de travaux, creation dun array a partir de objet set
+    return projects
 }
 
 //ajout des travaux recuperés dans la gallerie
@@ -38,15 +38,15 @@ function addElements(projects) {
     }
 }
 
+async function initialize(){ 
+    const projects = await getProjects()
+    addElements(projects)
+}
+
 /*filtre des elemenst de la gallerie*/
 async function filterElements() {
 
     const projects = await getProjects()
-
-    //afficher a l'ecran tous les elements du swagger par defaut 
-    addElements(projects)
-
-    console.log(projects)
 
     //cible les boutons filtres crees en Html 
     const buttonTous = document.querySelector(".button-tous");
@@ -62,7 +62,6 @@ async function filterElements() {
 
     buttonTous.addEventListener("click", function () {
         gallery.innerHTML = "" //on vide le contenu de la gallerie au click grace a innerHTML
-        console.log(projects)
         addElements(projects) //on appelle la fonction qui ajoute les elements a lecran 
     })
 
@@ -73,7 +72,6 @@ async function filterElements() {
         const filtreObjet = projects.filter(function (project) {
             return project.categoryId == 1;
         });
-        console.log(filtreObjet)
         addElements(filtreObjet) //on appelle la fonction qui ajoute uniquement les elements filtrés a lecran 
     })
 
@@ -84,7 +82,6 @@ async function filterElements() {
         const filtreAppartements = projects.filter(function (project) {
             return project.categoryId == 2;
         });
-        console.log(filtreAppartements)
         addElements(filtreAppartements) //on appelle la fonction qui ajoute uniquement les elements filtrés a lecran 
     })
 
@@ -95,13 +92,12 @@ async function filterElements() {
         const filtreHôtelsetrestaurants = projects.filter(function (project) {
             return project.categoryId == 3;
         });
-        console.log(filtreHôtelsetrestaurants)
         addElements(filtreHôtelsetrestaurants) //on appelle la fonction qui ajoute uniquement les elements filtrés a lecran 
     })
-
 }
 
+initialize()
 
-filterElements()
+filterElements() //fonction filtre
 
 
