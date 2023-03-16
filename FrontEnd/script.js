@@ -1,4 +1,4 @@
-//recuperation des travaux dans le swagger
+//on declare la fonction de recuperation des travaux dans le swagger
 async function getProjects() {
     const projects = await fetch("http://localhost:5678/api/works")
         .then(response => response.json())
@@ -6,12 +6,12 @@ async function getProjects() {
     return projects
 }
 
-//ajout des travaux recuperés dans la gallerie
+//on declare la fonction qui ajoute les travaux au html
 function addElements(projects) {
 
     const gallery = document.querySelector("#portfolio > .gallery");
 
-    //creating a for cycle to target each index of the array
+    //creation d'une boucle for pour cibler chaque element du tableau
     for (let i = 0; i < projects.length; i++) {
 
         //creation d'elements dans la gallerie en html
@@ -34,21 +34,13 @@ function addElements(projects) {
         //on rattache la image et le titre a la figure
         newFigure.appendChild(newImage)
         newFigure.appendChild(newCaption)
-
     }
 }
 
-async function initialize(){ 
-    const projects = await getProjects()
-    addElements(projects)
-}
+//on declare la fonction qui filtre des elements de la gallerie
+function filterElements(projects) {
 
-/*filtre des elemenst de la gallerie*/
-async function filterElements() {
-
-    const projects = await getProjects()
-
-    //cible les boutons filtres crees en Html 
+    //cible les boutons filtres crees en html 
     const buttonTous = document.querySelector(".button-tous");
 
     const buttonObjets = document.querySelector(".button-objets");
@@ -57,47 +49,62 @@ async function filterElements() {
 
     const buttonHôtelsetrestaurants = document.querySelector(".button-hôtelsetrestaurants");
 
-    //cible de la gallerie pour l'etape suivante
+    //on cible la gallerie pour l'etape suivante
     const gallery = document.querySelector("#portfolio > .gallery")
 
+    //On ajoute un eventlistener qui appelle la fonction au click sur le bouton cible
     buttonTous.addEventListener("click", function () {
-        gallery.innerHTML = "" //on vide le contenu de la gallerie au click grace a innerHTML
+        //on vide le contenu de la gallerie au click grace a innerHTML
+        gallery.innerHTML = ""
         addElements(projects) //on appelle la fonction qui ajoute les elements a lecran 
     })
 
+    //On ajoute un eventlistener qui appelle la fonction au click sur le bouton cible
     buttonObjets.addEventListener("click", function () {
-        gallery.innerHTML = "" //on vide le contenu de la gallerie au click grace a innerHTML
+        //on vide le contenu de la gallerie au click grace a innerHTML
+        gallery.innerHTML = ""
 
-        //on creait la constante filter qui retourne tous les elements de projects categoryId = 1 qui correspond a Objets 
+        //on creait la constante filter qui retourne tous les elements de projects name = Objets qui correspond a Objets 
         const filtreObjet = projects.filter(function (project) {
-            return project.categoryId == 1;
+            return project.category.name == "Objets";
         });
         addElements(filtreObjet) //on appelle la fonction qui ajoute uniquement les elements filtrés a lecran 
     })
 
+    //On ajoute un eventlistener qui appelle la fonction au click sur le bouton cible
     buttonAppartements.addEventListener("click", function () {
-        gallery.innerHTML = "" //on vide le contenu de la gallerie au click grace a innerHTML
+        //on vide le contenu de la gallerie au click grace a innerHTML
+        gallery.innerHTML = ""
 
-        //on creait la constante filter qui retourne tous les elements de projects categoryId = 2 qui correspond a Appartements 
+        //on creait la constante filter qui retourne tous les elements de projects name = Appartements qui correspond a Appartements 
         const filtreAppartements = projects.filter(function (project) {
-            return project.categoryId == 2;
+            return project.category.name == "Appartements";
         });
         addElements(filtreAppartements) //on appelle la fonction qui ajoute uniquement les elements filtrés a lecran 
     })
 
+    //On ajoute un eventlistener qui appelle la fonction au click sur le bouton cible
     buttonHôtelsetrestaurants.addEventListener("click", function () {
-        gallery.innerHTML = "" //on vide le contenu de la gallerie au click grace a innerHTML
+        //on vide le contenu de la gallerie au click grace a innerHTML
+        gallery.innerHTML = ""
 
-        //on creait la constante filter qui retourne tous les elements de projects categoryId = 3 qui correspond a Hôtelsetrestaurants 
+        //on creait la constante filter qui retourne tous les elements de projects name = Hotels & restaurants qui correspond a Hôtelsetrestaurants 
         const filtreHôtelsetrestaurants = projects.filter(function (project) {
-            return project.categoryId == 3;
+            return project.category.name == "Hotels & restaurants";
         });
         addElements(filtreHôtelsetrestaurants) //on appelle la fonction qui ajoute uniquement les elements filtrés a lecran 
     })
 }
 
-initialize()
+//on declare la fonction qui affiche tous les travaux quand la page se charge  
+async function initialize(){ 
+    
+    const projects = await getProjects()
 
-filterElements() //fonction filtre
+    addElements(projects) // la fonction initialize inclu l'appel a la fonction ajout d'elements a la gallerie 
 
+    filterElements(projects) // la fonmction initialize inclu l'appel a la fonction filtre les elements
+}
+
+initialize() //on appelle la fonction qui ajoutent les elements a la gallerie + qui les filtre grace aux boutons 
 
