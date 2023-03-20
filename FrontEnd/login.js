@@ -1,25 +1,34 @@
 //on declare la fonction qui recupere les donnees entrees par l'utilisateur sur l'interface du site
-function getValues() {
+function initialize() {
 
-    const buttonSubmit = document.querySelector("#submit")
+    //on cible le fomulaire
+    const buttonSubmit = document.querySelector("#submitform")
 
-    buttonSubmit.addEventListener("submit", function () {
+    //on creait un evenement a l'action de validation des donnees rentrees par l'utilisateur
+    buttonSubmit.addEventListener("submit", function (event) {
 
+        //non execution de l'action par defaut si l'évènement n'est pas explicitement géré
+        event.preventDefault()
+
+        //on cible les cases pour email et mot de passe
         const email = document.querySelector("#email").value
         const password = document.querySelector("#motdepasse").value
 
+        //on parametre userData avec les donnees de l'API
         const userData = {
             email: email,
             password: password,
         }
 
-     connexion(userData)
+        //on appelle la fonction connexion qui execute les differents scenarios possibles lors de la connexion
+        connexion(userData)
     })
 }
 
+//on declare la fonction connexion qui execute les differents scenarios possibles lors de la connexion
 async function connexion(userData) {
-    
 
+    //on applique la requête qui permet d’envoyer les valeurs des entrées du formulaire
     let response = await fetch("http://localhost:5678/api/users/login", {
         method: 'POST',
         headers: {
@@ -27,13 +36,31 @@ async function connexion(userData) {
         },
         body: JSON.stringify(userData)
     })
-        .then(response => response.json())
 
-    alert(response);
+    //on sauvegarde les donnees de userId et du token de l'API pour l'autentification dans result 
+    if (response.status == 200) {
+        const result = await response.json()
+
+        //on sauvegarde le token d'authentification pour pouvoir réaliser les envois et suppressions de travaux
+        window.localStorage.setItem("token", result.token)
+
+        //on reoriente lutilisateur vers la page d'acceuil en cas de connection
+        window.location.href = "file:///Users/dileksafter/Desktop/portfolio_architecte_sophie_bluel/Portfolio-architecte-sophie-bluel/FrontEnd/index.html";
+    }
+
+    //mot de passe incorrect 
+    else if (response.status == 401) {
+        alert("Not Authorized")
+    }
+
+    //identifiant de connection incorrect
+    else if (response.status == 404) {
+        alert("User not found")
+    }
+
 }
 
-
-
-getValues()
+//on appelle la fonction initialize qui opere le processus de  connection
+initialize()
 
 
