@@ -1,4 +1,4 @@
-//on declare la fonction qui recupere les donnees entrees par l'utilisateur sur l'interface du site
+//on declare la fonction qui recupere les donnees entrees par l'utilisateur dans le formulaire
 function initialize() {
 
     //on cible le fomulaire
@@ -41,11 +41,11 @@ async function connexion(userData) {
     if (response.status == 200) {
         const result = await response.json()
 
-        //on sauvegarde le token d'authentification pour pouvoir réaliser les envois et suppressions de travaux
-        window.localStorage.setItem("token", result.token)
-
         //on reoriente lutilisateur vers la page d'acceuil en cas de connection
         window.location.href = "file:///Users/dileksafter/Desktop/portfolio_architecte_sophie_bluel/Portfolio-architecte-sophie-bluel/FrontEnd/index.html";
+
+        //on sauvegarde le token d'authentification jusqu'a la deconnection
+        window.localStorage.setItem("token", result.token)
     }
 
     //mot de passe incorrect 
@@ -57,7 +57,6 @@ async function connexion(userData) {
     else if (response.status == 404) {
         alert("User not found")
     }
-
 }
 
 //on appelle la fonction initialize qui opere le processus de  connection

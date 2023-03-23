@@ -236,39 +236,46 @@ li:hover {
 
 }
 
-#contact, #login {
+#contact,
+#login {
 	width: 50%;
 	margin: auto;
 }
 
-#contact>*, #login>* {
+#contact>*,
+#login>* {
 	text-align: center;
 
 }
 
-#contact h2, #login h2 {
+#contact h2,
+#login h2 {
 	margin-bottom: 20px;
 }
 
-#contact form, #login form {
+#contact form,
+#login form {
 	text-align: left;
 	margin-top: 30px;
 	display: flex;
 	flex-direction: column;
 }
 
-#contact input, #login input {
+#contact input,
+#login input {
 	height: 50px;
 	font-size: 1.2em;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-#contact label, #login label {
+#contact label,
+#login label {
 	margin: 2em 0 1em 0;
 }
 
-#contact textarea, #login textarea {
+#contact textarea,
+#login textarea {
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
@@ -287,7 +294,7 @@ input[type="submit"] {
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
-	margin: 2em
+	margin: 2em;
 }
 
 .filtres {
@@ -307,9 +314,9 @@ footer nav ul {
 	font-style: normal;
 	font-weight: 700;
 	font-size: 16px;
-	color:#1D6154;
+	color: #1D6154;
 	width: auto;
-    height: 37px;
+	height: 37px;
 	padding: 0px 20px 0px 20px;
 }
 
@@ -317,14 +324,14 @@ footer nav ul {
 .button-objets:hover,
 .button-appartements:hover,
 .button-hôtelsetrestaurants:hover {
-	background-color:#1D6154;
-	color:#FFFFFF;
+	background-color: #1D6154;
+	color: #FFFFFF;
 }
 
 #motdepasseoublie {
 	text-decoration: underline;
 	display: flex;
-    justify-content: center;
+	justify-content: center;
 }
 
 a {
@@ -334,17 +341,75 @@ a {
 
 header img {
 	Width: 19.36px;
-    Height:	19.36px;
-}
-
-/* footer {
-	background-color: #FFFFFF;
+	Height: 19.36px;
 }
 
 body {
-	background-color: #E5E5E5;
-} */
+	background-color: #fffef8;
+}
 
 .loginfooter {
 	margin-top: 355px;
 }
+
+footer nav {
+	list-style-type: none;
+	background-color: #FFFFFF;
+}
+
+#editbar {
+	background-color: #000000;
+	display: flex;
+	justify-content: center;
+	/* width: 100%;
+	position: absolute;
+    top: 0; left: 0; */
+	height: 59px;
+}
+
+#modeedition {
+	width: 130px;
+	display: flex;
+	flex-direction: row-reverse;
+	justify-content: space-between;
+	background-color: #000000;
+	color: #FFFFFF;
+	border: #000000;
+	font-size: 16px;
+	margin-top: auto;
+	margin-bottom: auto;
+}
+
+#publish {
+	Width: 216px;
+    Height: 38px;
+	font-size: 14px;
+	background: #FFFFFF;
+    border-radius: 60px;
+	margin-top: auto;
+	margin-bottom: auto;
+}
+
+
+
+
+
+
+
+
+/* .modale1 {
+	position: fixed;
+	margin: 601px 402px auto 408px;
+	background: rgba(0, 0, 0, 1); 
+}
+
+.modale-wrapper {
+	position: absolute;
+	width: 55%;
+	height: 731px;
+	margin: 500px auto auto auto;
+	background: #FFFFFF;
+	border-radius: 10px;
+	border: solid 2px black;
+	
+} */

@@ -96,14 +96,82 @@ function filterElements(projects) {
     })
 }
 
-//on declare la fonction qui affiche tous les travaux quand la page se charge  
-async function initialize(){ 
+function verification() {
+    if (window.localStorage.getItem("token")) {
+        return true
+    }
+    else {
+        return false
+    }
+}
+
+async function editPage() {
+
+    const logoutButton = document.querySelector("#loginbutton")
+    logoutButton.textContent = "Logout";
+
+    const editBar = document.querySelector("#editbar");
+
+
+
+
+
+
+    const editButton = document.createElement("button");
+
+    editButton.setAttribute("id", "modeedition")
+
+    editButton.append("Mode édition")
+
+
+
+
+
+    const editIcon = document.createElement("i")
+
+    editIcon.setAttribute("class", "fa-solid fa-pen-to-square")
     
+   
+
+
+
+    const publishChangesButton = document.createElement("button");
+
+    publishChangesButton.setAttribute("id", "publish")
+
+    publishChangesButton.append("publier les changements")
+
+
+
+    
+    editButton.appendChild(editIcon)
+
+    editBar.appendChild(editButton)
+    
+    editBar.appendChild(publishChangesButton)
+
+//on vide le local storage a la deconnection  
+    logoutButton.addEventListener ("click", function(){
+        window.localStorage.removeItem ("token")
+    })
+
+}
+
+//on declare la fonction qui affiche tous les travaux quand la page se charge  
+async function initialize() {
+
     const projects = await getProjects()
 
     addElements(projects) // la fonction initialize inclu l'appel a la fonction ajout d'elements a la gallerie 
 
-    filterElements(projects) // la fonmction initialize inclu l'appel a la fonction filtre les elements
+    filterElements(projects) // la fonction initialize inclu l'appel a la fonction filtre les elements
+
+    const verified = verification()
+
+    if (verified) {
+        editPage()
+    }
+
 }
 
 initialize() //on appelle la fonction qui ajoutent les elements a la gallerie + qui les filtre grace aux boutons 
