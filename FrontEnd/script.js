@@ -150,6 +150,38 @@ async function editPage() {
     
     editBar.appendChild(publishChangesButton)
 
+
+
+
+    const editProfil = document.querySelector("#editprofil");
+
+    const editProfilButton = document.createElement("button");
+
+    editProfilButton.append("Modifier")
+
+    editProfil.appendChild(editProfilButton)
+
+    editProfil.appendChild(editIcon.cloneNode(true))
+
+  
+
+
+
+    const editProjects = document.querySelector("#editprojects");
+
+    const editProjectsButton = document.createElement("button");
+
+    editProjectsButton.append("Modifier")
+
+    editProjects.appendChild(editProjectsButton)
+
+    editProjects.appendChild(editIcon.cloneNode(true))
+
+   
+
+
+
+
 //on vide le local storage a la deconnection  
     logoutButton.addEventListener ("click", function(){
         window.localStorage.removeItem ("token")

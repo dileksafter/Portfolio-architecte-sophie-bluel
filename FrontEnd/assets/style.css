@@ -194,6 +194,7 @@ li:hover {
 #introduction {
 	display: flex;
 	align-items: center;
+	margin-bottom: 0;
 }
 
 #introduction figure {
@@ -376,26 +377,66 @@ footer nav {
 	color: #FFFFFF;
 	border: #000000;
 	font-size: 16px;
+	font-weight: 300;
 	margin-top: auto;
 	margin-bottom: auto;
 }
 
 #publish {
 	Width: 216px;
-    Height: 38px;
+	Height: 38px;
 	font-size: 14px;
 	background: #FFFFFF;
-    border-radius: 60px;
+	border-radius: 60px;
 	margin-top: auto;
 	margin-bottom: auto;
+	border: solid #000000;
+}
+
+.fa-solid-fa-pen-to-square {
+	color: #FFFFFF;
+}
+
+#editprofil {
+	display: flex;
+	flex-direction: row-reverse;
+	margin-top: 5px;
+	margin-right: 87%;
+	align-items: flex-start;
+	font-family: 'Work Sans';
+	font-size: 14px;
+}
+
+#editprojects {
+	display: flex;
+	flex-direction: row-reverse;
+	justify-content: space-between;
+	font-size: 14px;
+	width: 77px;
+	margin-left: 31px;
+}
+
+.edittitlebox {
+	display: flex;
+	justify-content: center;
+	height: 36px;
+}
+
+button {
+	border-style: none;
+	background-color: #FFFFFF;
 }
 
 
+ .edittitlebox i {
+	display: flex;
+	align-items: center;
+	font-weight: 300;
+ }
 
-
-
-
-
+ #editprofil i {
+	font-weight: 300;
+ }
 
 /* .modale1 {
 	position: fixed;
