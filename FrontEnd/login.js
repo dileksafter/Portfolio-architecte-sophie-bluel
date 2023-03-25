@@ -41,20 +41,20 @@ async function connexion(userData) {
     if (response.status == 200) {
         const result = await response.json()
 
-        //on reoriente lutilisateur vers la page d'acceuil en cas de connection
-        window.location.href = "file:///Users/dileksafter/Desktop/portfolio_architecte_sophie_bluel/Portfolio-architecte-sophie-bluel/FrontEnd/index.html";
-
         //on sauvegarde le token d'authentification jusqu'a la deconnection
         window.localStorage.setItem("token", result.token)
+
+        //on reoriente lutilisateur vers la page d'acceuil en cas de connection
+        window.location.href = "file:///Users/dileksafter/Desktop/portfolio_architecte_sophie_bluel/Portfolio-architecte-sophie-bluel/FrontEnd/index.html";
     }
 
     //mot de passe incorrect 
-    else if (response.status == 401) {
+    if (response.status == 401) {
         alert("Not Authorized")
     }
 
     //identifiant de connection incorrect
-    else if (response.status == 404) {
+    if (response.status == 404) {
         alert("User not found")
     }
 }

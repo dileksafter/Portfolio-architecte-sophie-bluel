@@ -163,6 +163,7 @@ async function editPage() {
 
     editProfil.appendChild(editIcon.cloneNode(true))
 
+
   
 
 
@@ -177,16 +178,11 @@ async function editPage() {
 
     editProjects.appendChild(editIcon.cloneNode(true))
 
-   
-
-
-
-
 //on vide le local storage a la deconnection  
     logoutButton.addEventListener ("click", function(){
         window.localStorage.removeItem ("token")
+    
     })
-
 }
 
 //on declare la fonction qui affiche tous les travaux quand la page se charge  
@@ -202,6 +198,9 @@ async function initialize() {
 
     if (verified) {
         editPage()
+    }
+    else {
+        console.log(verified)
     }
 
 }
