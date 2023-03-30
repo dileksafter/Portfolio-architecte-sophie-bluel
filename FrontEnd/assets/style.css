@@ -234,7 +234,6 @@ li:hover {
 
 .gallery img {
 	width: 100%;
-
 }
 
 #contact,
@@ -358,14 +357,18 @@ footer nav {
 	background-color: #FFFFFF;
 }
 
-#editbar {
+#editbar div {
 	background-color: #000000;
 	display: flex;
 	justify-content: center;
-	/* width: 100%;
-	position: absolute;
-    top: 0; left: 0; */
 	height: 59px;
+
+	margin: 0;
+	padding: 0;
+}
+
+#editbar {
+	width: 100vw;
 }
 
 #modeedition {
@@ -400,10 +403,9 @@ footer nav {
 #editprofil {
 	display: flex;
 	flex-direction: row-reverse;
+	justify-content: flex-end;
 	margin-top: 5px;
-	margin-right: 87%;
-	align-items: flex-start;
-	font-family: 'Work Sans';
+	margin-left: 10%;
 	font-size: 14px;
 }
 
@@ -428,29 +430,53 @@ button {
 }
 
 
- .edittitlebox i {
+.edittitlebox i {
 	display: flex;
 	align-items: center;
 	font-weight: 300;
- }
-
- #editprofil i {
-	font-weight: 300;
- }
-
-/* .modale1 {
-	position: fixed;
-	margin: 601px 402px auto 408px;
-	background: rgba(0, 0, 0, 1); 
 }
 
-.modale-wrapper {
+#editprofil i {
+	font-weight: 300;
+}
+
+#modaleditgallery {
+	position: fixed;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.3);
+}
+
+.modal-wrapper {
 	position: absolute;
-	width: 55%;
-	height: 731px;
-	margin: 500px auto auto auto;
+	width: 630px;
+	height: 730px;
 	background: #FFFFFF;
 	border-radius: 10px;
 	border: solid 2px black;
-	
-} */
+}
+
+.modaltitle {
+	color: #000000;
+	font-family: 'Work Sans';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 26px;
+	line-height: 30px;
+	text-align: center;
+	margin-top: 60px;
+}
+
+i[class="closemodal fa-solid fa-x"] {
+	display: flex;
+	align-items: flex-end;
+	width: 12px;
+	height: 12px; 
+	font-weight: 900;
+	margin-top: 20px;
+}

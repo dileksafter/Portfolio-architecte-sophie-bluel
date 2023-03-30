@@ -96,6 +96,7 @@ function filterElements(projects) {
     })
 }
 
+//on declare la fonction qui verifie le stockage du token ou non 
 function verification() {
     if (window.localStorage.getItem("token")) {
         return true
@@ -105,18 +106,22 @@ function verification() {
     }
 }
 
+//on declare la fonction qui affiche la barre d'edition a la connection avec succes
 async function editPage() {
 
+
+    //creation de editbar
     const logoutButton = document.querySelector("#loginbutton")
     logoutButton.textContent = "Logout";
 
     const editBar = document.querySelector("#editbar");
 
+    const editBarDiv = document.createElement("div");
+
+    editBar.appendChild(editBarDiv)
 
 
-
-
-
+    //creation du boutton edition rattaché a editbar
     const editButton = document.createElement("button");
 
     editButton.setAttribute("id", "modeedition")
@@ -124,17 +129,13 @@ async function editPage() {
     editButton.append("Mode édition")
 
 
-
-
-
+    //creation du logo edition
     const editIcon = document.createElement("i")
 
     editIcon.setAttribute("class", "fa-solid fa-pen-to-square")
-    
-   
 
 
-
+    //creation du boutton publier les changements 
     const publishChangesButton = document.createElement("button");
 
     publishChangesButton.setAttribute("id", "publish")
@@ -142,17 +143,15 @@ async function editPage() {
     publishChangesButton.append("publier les changements")
 
 
-
-    
+    //rattachement de l'icone a editbutton et de editbutton + publishbutton a editbar
     editButton.appendChild(editIcon)
 
-    editBar.appendChild(editButton)
-    
-    editBar.appendChild(publishChangesButton)
+    editBarDiv.appendChild(editButton)
+
+    editBarDiv.appendChild(publishChangesButton)
 
 
-
-
+    //creation du bouton modifier profil
     const editProfil = document.querySelector("#editprofil");
 
     const editProfilButton = document.createElement("button");
@@ -161,16 +160,18 @@ async function editPage() {
 
     editProfil.appendChild(editProfilButton)
 
+
+    //clone l'icone car elle ne peut etre utilisé qu'1 fois
     editProfil.appendChild(editIcon.cloneNode(true))
 
 
-  
-
-
-
+    //ceration du boutton modifier projet 
     const editProjects = document.querySelector("#editprojects");
 
     const editProjectsButton = document.createElement("button");
+
+    //on cible le lien qui ouvre la modale
+    editProjectsButton.setAttribute("href", "#modaleditgallery")
 
     editProjectsButton.append("Modifier")
 
@@ -178,12 +179,37 @@ async function editPage() {
 
     editProjects.appendChild(editIcon.cloneNode(true))
 
-//on vide le local storage a la deconnection  
-    logoutButton.addEventListener ("click", function(){
-        window.localStorage.removeItem ("token")
-    
+    openModal(editProjectsButton)
+
+    //on vide le local storage a la deconnection  
+    logoutButton.addEventListener("click", function () {
+        window.localStorage.removeItem("token")
     })
 }
+
+function openModal(targetButton) {
+    targetButton.addEventListener("click", function (){
+        const modal = document.querySelector("#modaleditgallery")
+        modal.style = null
+        modal.removeAttribute("aria-hidden")
+        modal.setAttribute("aria-modal", true)
+
+        const closeButton = document.querySelector(".closemodal")
+        closeModal(closeButton)
+    })
+}
+
+function closeModal(targetButton){
+
+    targetButton.addEventListener("click", function (){
+        const modal = document.querySelector("#modaleditgallery")
+        modal.style = "display:none"
+        modal.setAttribute("aria-hidden", true)
+        modal.removeAttribute("aria-modal")
+    }
+    )
+}
+
 
 //on declare la fonction qui affiche tous les travaux quand la page se charge  
 async function initialize() {
@@ -202,7 +228,6 @@ async function initialize() {
     else {
         console.log(verified)
     }
-
 }
 
 initialize() //on appelle la fonction qui ajoutent les elements a la gallerie + qui les filtre grace aux boutons 

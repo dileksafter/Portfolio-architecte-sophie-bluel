@@ -50,12 +50,12 @@ async function connexion(userData) {
 
     //mot de passe incorrect 
     if (response.status == 401) {
-        alert("Not Authorized")
+        alert("mot de passe incorrect")
     }
 
     //identifiant de connection incorrect
     if (response.status == 404) {
-        alert("User not found")
+        alert("e-mail incorrect")
     }
 }
 
