@@ -72,7 +72,6 @@ embed,
 figure,
 figcaption,
 footer,
-header,
 hgroup,
 menu,
 nav,
@@ -362,13 +361,14 @@ footer nav {
 	display: flex;
 	justify-content: center;
 	height: 59px;
-
 	margin: 0;
 	padding: 0;
 }
 
 #editbar {
 	width: 100vw;
+	position: absolute;
+	top: 0; left: 0;
 }
 
 #modeedition {
@@ -472,11 +472,20 @@ button {
 	margin-top: 60px;
 }
 
-i[class="closemodal fa-solid fa-x"] {
-	display: flex;
-	align-items: flex-end;
+.close-icone>i {
 	width: 12px;
-	height: 12px; 
-	font-weight: 900;
+	height: 12px;
+	font-weight: 800;
 	margin-top: 20px;
+	margin-right: 20px;
+}
+
+.close-icone {
+
+	display: flex;
+	justify-content: flex-end;
+}
+
+header {
+	margin-top: 100px;
 }

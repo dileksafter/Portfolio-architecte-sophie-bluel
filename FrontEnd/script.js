@@ -172,6 +172,7 @@ async function editPage() {
 
     //on cible le lien qui ouvre la modale
     editProjectsButton.setAttribute("href", "#modaleditgallery")
+    editProjectsButton.setAttribute("id", "modalbutton")
 
     editProjectsButton.append("Modifier")
 
@@ -179,35 +180,47 @@ async function editPage() {
 
     editProjects.appendChild(editIcon.cloneNode(true))
 
-    openModal(editProjectsButton)
-
     //on vide le local storage a la deconnection  
     logoutButton.addEventListener("click", function () {
         window.localStorage.removeItem("token")
     })
+
 }
 
-function openModal(targetButton) {
-    targetButton.addEventListener("click", function (){
-        const modal = document.querySelector("#modaleditgallery")
-        modal.style = null
-        modal.removeAttribute("aria-hidden")
-        modal.setAttribute("aria-modal", true)
+function modalManagement() {
+    const stopPropagation = function (event) {
+        event.stopPropagation()
+    }
 
-        const closeButton = document.querySelector(".closemodal")
-        closeModal(closeButton)
-    })
-}
+    const openModal = function (event) {
+        event.preventDefault()
+        const target = document.querySelector("#modaleditgallery")
+        target.style = null
+        target.removeAttribute("aria-hidden")
+        target.setAttribute("aria-modal", true)
+        modal = target
+        modal.addEventListener("click", closeModal)
+        modal.querySelector(".closemodal").addEventListener("click", closeModal)
+        modal.querySelector(".modal-wrapper").addEventListener("click", stopPropagation)
 
-function closeModal(targetButton){
+    }
 
-    targetButton.addEventListener("click", function (){
-        const modal = document.querySelector("#modaleditgallery")
+    const closeModal = function (event) {
+        if (modal === null) return
+
         modal.style = "display:none"
         modal.setAttribute("aria-hidden", true)
         modal.removeAttribute("aria-modal")
+        modal.removeEventListener("click", closeModal)
+        modal.querySelector(".closemodal").removeEventListener("click", closeModal)
+        modal.querySelector(".modal-wrapper").removeEventListener("click", stopPropagation)
+        modal = null
     }
-    )
+
+
+    let modal = null
+    document.querySelector("#modalbutton").addEventListener("click", openModal)
+
 }
 
 
@@ -224,6 +237,7 @@ async function initialize() {
 
     if (verified) {
         editPage()
+        modalManagement()
     }
     else {
         console.log(verified)
