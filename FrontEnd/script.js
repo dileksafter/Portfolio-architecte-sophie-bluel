@@ -34,6 +34,7 @@ function addElements(projects) {
         //on rattache la image et le titre a la figure
         newFigure.appendChild(newImage)
         newFigure.appendChild(newCaption)
+        newFigure.setAttribute("id", "work" + projects[i].id)
     }
 }
 
@@ -223,25 +224,114 @@ function modalManagement() {
 
 }
 
+function populateModal(projects) {
+
+    const gallery = document.querySelector(".modalgallery");
+
+    //creation d'une boucle for pour cibler chaque element du tableau
+    for (let i = 0; i < projects.length; i++) {
+
+        //creation d'elements dans la gallerie en html
+        const newFigure = document.createElement("figure");
+
+        const newImage = document.createElement("img");
+
+        const buttonEditer = document.createElement("button");
+
+        //on accede a l'indice i des travaux recuperés pour configurer les parametres de l'image
+        newImage.setAttribute("src", projects[i].imageUrl)
+        newImage.setAttribute("alt", projects[i].title)
+
+        //on rattache titre au contenu texte
+        buttonEditer.append("éditer")
+
+        //on rattache la figure a la gallerie
+        gallery.appendChild(newFigure)
+
+
+        const trashIcon = document.createElement("i")
+
+        trashIcon.setAttribute("class", "fa-solid fa-trash-can")
+
+
+        const trashButton = document.createElement("button")
+
+        trashButton.setAttribute("id", "trashButton")
+
+        trashButton.appendChild(trashIcon)
+        newFigure.appendChild(trashButton)
+
+        //on rattache la image et le titre a la figure
+        newFigure.appendChild(newImage)
+
+        newFigure.appendChild(buttonEditer)
+        newFigure.setAttribute("id", "work" + projects[i].id)
+
+    }
+
+    const line = document.createElement("div");
+
+    line.setAttribute("class", "line")
+
+
+    const addProject = document.createElement("button");
+
+    addProject.setAttribute("id", "addProject")
+
+    addProject.append("Ajouter une photo")
+
+
+    const deleteGallery = document.createElement("button");
+
+    deleteGallery.setAttribute("id", "deleteGallery")
+
+    deleteGallery.append("Supprimer la galerie")
+
+    const modalWrapper = document.querySelector(".modal-wrapper")
+
+    modalWrapper.appendChild(line)
+    modalWrapper.appendChild(addProject)
+    modalWrapper.appendChild(deleteGallery)
+
+}
+
+function deleteWorks() {
+
+    const trashButtons = document.querySelectorAll("#trashButton")
+
+    for (let i = 0; i < trashButtons.length; i++) {
+        trashButtons[i].addEventListener("click", function () {
+            
+            trashButtons[i].parentElement.remove()
+        })
+    }
+}
+
+
+
+
+
+
 
 //on declare la fonction qui affiche tous les travaux quand la page se charge  
 async function initialize() {
 
-    const projects = await getProjects()
-
-    addElements(projects) // la fonction initialize inclu l'appel a la fonction ajout d'elements a la gallerie 
-
-    filterElements(projects) // la fonction initialize inclu l'appel a la fonction filtre les elements
+    let projects = await getProjects()
 
     const verified = verification()
 
     if (verified) {
         editPage()
         modalManagement()
+        populateModal(projects)
+        deleteWorks(projects)
+
     }
-    else {
-        console.log(verified)
-    }
+
+    addElements(projects) // la fonction initialize inclu l'appel a la fonction ajout d'elements a la gallerie 
+
+    filterElements(projects) // la fonction initialize inclu l'appel a la fonction filtre les elements
+
 }
 
 initialize() //on appelle la fonction qui ajoutent les elements a la gallerie + qui les filtre grace aux boutons 

@@ -368,7 +368,8 @@ footer nav {
 #editbar {
 	width: 100vw;
 	position: absolute;
-	top: 0; left: 0;
+	top: 0;
+	left: 0;
 }
 
 #modeedition {
@@ -488,4 +489,44 @@ button {
 
 header {
 	margin-top: 100px;
+}
+
+.modalgallery {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-column-gap: 7.5px;
+    grid-row-gap: 7.5px;
+	margin: 45px 105px 45px 105px;
+}
+
+.modalgallery img {
+	width: 100%;
+}
+
+.line{
+
+}
+
+
+#addProject{
+
+}
+
+#deleteGallery{
+
+}
+
+.fa-solid.fa-trash-can{
+	color: #FFFFFF;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 9px;
+}
+
+#trashButton{
+	background-color: #000000;
+	width: 17px;
+	height: 17px;
+	position:absolute;
 }
