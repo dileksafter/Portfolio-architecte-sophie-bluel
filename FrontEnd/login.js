@@ -45,7 +45,7 @@ async function connexion(userData) {
         window.localStorage.setItem("token", result.token)
 
         //on reoriente lutilisateur vers la page d'acceuil en cas de connection
-        window.location.href = "file:///Users/dileksafter/Desktop/portfolio_architecte_sophie_bluel/Portfolio-architecte-sophie-bluel/FrontEnd/index.html";
+        window.location.href = "http://localhost:5500/FrontEnd/";
     }
 
     //mot de passe incorrect 

@@ -34,6 +34,8 @@ function addElements(projects) {
         //on rattache la image et le titre a la figure
         newFigure.appendChild(newImage)
         newFigure.appendChild(newCaption)
+
+
         newFigure.setAttribute("id", "work" + projects[i].id)
     }
 }
@@ -226,6 +228,68 @@ function modalManagement() {
 
 function populateModal(projects) {
 
+
+
+    const closeDiv = document.createElement("div");
+
+    closeDiv.setAttribute("class", "close-icone")
+
+    const closeIcon = document.createElement("i")
+
+    closeIcon.setAttribute("class", "closemodal fa-solid fa-x")
+
+    closeDiv.appendChild(closeIcon)
+
+    const modalTitle = document.createElement("h1")
+
+    modalTitle.setAttribute("class", "modaltitle")
+
+    modalTitle.append("Galerie photo")
+
+    const modalGallery = document.createElement("div")
+
+    modalGallery.setAttribute("class", "modalgallery")
+
+
+    const modalWrapper = document.querySelector(".modal-wrapper")
+
+
+    const line = document.createElement("div");
+
+    line.setAttribute("class", "line")
+
+
+    const addProject = document.createElement("button");
+
+    addProject.setAttribute("id", "addProject")
+
+    addProject.append("Ajouter une photo")
+
+
+    const deleteGallery = document.createElement("button");
+
+    deleteGallery.setAttribute("id", "deleteGallery")
+
+    deleteGallery.append("Supprimer la galerie")
+
+
+
+
+
+
+    const modalOptions = document.createElement("div")
+
+    modalOptions.setAttribute("class", "options")
+
+    modalOptions.appendChild(line)
+    modalOptions.appendChild(addProject)
+    modalOptions.appendChild(deleteGallery)
+
+    modalWrapper.appendChild(closeDiv)
+    modalWrapper.appendChild(modalTitle)
+    modalWrapper.appendChild(modalGallery)
+    modalWrapper.appendChild(modalOptions)
+
     const gallery = document.querySelector(".modalgallery");
 
     //creation d'une boucle for pour cibler chaque element du tableau
@@ -248,6 +312,19 @@ function populateModal(projects) {
         //on rattache la figure a la gallerie
         gallery.appendChild(newFigure)
 
+        if (i === 0) {
+
+            const multiArrowsIcon = document.createElement("i")
+
+            multiArrowsIcon.setAttribute("class", "fa-sharp fa-solid fa-arrows-up-down-left-right")
+
+            const multiArrowsButton = document.createElement("button")
+
+            multiArrowsButton.setAttribute("id", "multiArrowsButton")
+
+            multiArrowsButton.appendChild(multiArrowsIcon)
+            newFigure.appendChild(multiArrowsButton)
+        }
 
         const trashIcon = document.createElement("i")
 
@@ -268,31 +345,6 @@ function populateModal(projects) {
         newFigure.setAttribute("id", "work" + projects[i].id)
 
     }
-
-    const line = document.createElement("div");
-
-    line.setAttribute("class", "line")
-
-
-    const addProject = document.createElement("button");
-
-    addProject.setAttribute("id", "addProject")
-
-    addProject.append("Ajouter une photo")
-
-
-    const deleteGallery = document.createElement("button");
-
-    deleteGallery.setAttribute("id", "deleteGallery")
-
-    deleteGallery.append("Supprimer la galerie")
-
-    const modalWrapper = document.querySelector(".modal-wrapper")
-
-    modalWrapper.appendChild(line)
-    modalWrapper.appendChild(addProject)
-    modalWrapper.appendChild(deleteGallery)
-
 }
 
 function deleteWorks() {
@@ -301,12 +353,39 @@ function deleteWorks() {
 
     for (let i = 0; i < trashButtons.length; i++) {
         trashButtons[i].addEventListener("click", function () {
-            
+
+
+
+            const figureId = trashButtons[i].parentElement.getAttribute("id")
+
+            const gallery = document.querySelector(".gallery")
+
             trashButtons[i].parentElement.remove()
+
+            gallery.querySelector("#" + figureId).remove()
+
+
+
         })
     }
 }
 
+function addWorks() {
+
+    document.querySelector("#addProject").addEventListener("click", function () {
+
+        document.querySelector(".modal-wrapper").innerHTML = ""
+
+
+
+
+
+
+    })
+
+
+
+}
 
 
 
@@ -324,7 +403,9 @@ async function initialize() {
         editPage()
         modalManagement()
         populateModal(projects)
-        deleteWorks(projects)
+        //API delete works not functional
+        deleteWorks()
+        addWorks()
 
     }
 
