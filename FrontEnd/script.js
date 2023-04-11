@@ -112,7 +112,6 @@ function verification() {
 //on declare la fonction qui affiche la barre d'edition a la connection avec succes
 async function editPage() {
 
-
     //creation de editbar
     const logoutButton = document.querySelector("#loginbutton")
     logoutButton.textContent = "Logout";
@@ -214,9 +213,9 @@ function modalManagement() {
         modal.style = "display:none"
         modal.setAttribute("aria-hidden", true)
         modal.removeAttribute("aria-modal")
-        modal.removeEventListener("click", closeModal)
-        modal.querySelector(".closemodal").removeEventListener("click", closeModal)
-        modal.querySelector(".modal-wrapper").removeEventListener("click", stopPropagation)
+        // modal.removeEventListener("click", closeModal)
+        // modal.querySelector(".closemodal").removeEventListener("click", closeModal)
+        // modal.querySelector(".modal-wrapper").removeEventListener("click", stopPropagation)
         modal = null
     }
 
@@ -228,17 +227,17 @@ function modalManagement() {
 
 function populateModal(projects) {
 
-
-
     const closeDiv = document.createElement("div");
 
-    closeDiv.setAttribute("class", "close-icone")
+    closeDiv.setAttribute("class", "close-icon")
+
 
     const closeIcon = document.createElement("i")
 
     closeIcon.setAttribute("class", "closemodal fa-solid fa-x")
 
     closeDiv.appendChild(closeIcon)
+
 
     const modalTitle = document.createElement("h1")
 
@@ -271,10 +270,6 @@ function populateModal(projects) {
     deleteGallery.setAttribute("id", "deleteGallery")
 
     deleteGallery.append("Supprimer la galerie")
-
-
-
-
 
 
     const modalOptions = document.createElement("div")
@@ -354,8 +349,6 @@ function deleteWorks() {
     for (let i = 0; i < trashButtons.length; i++) {
         trashButtons[i].addEventListener("click", function () {
 
-
-
             const figureId = trashButtons[i].parentElement.getAttribute("id")
 
             const gallery = document.querySelector(".gallery")
@@ -363,8 +356,6 @@ function deleteWorks() {
             trashButtons[i].parentElement.remove()
 
             gallery.querySelector("#" + figureId).remove()
-
-
 
         })
     }
@@ -374,16 +365,212 @@ function addWorks() {
 
     document.querySelector("#addProject").addEventListener("click", function () {
 
-        document.querySelector(".modal-wrapper").innerHTML = ""
+        const modalWrapper = document.querySelector(".modal-wrapper")
+
+        modalWrapper.innerHTML = ""
+
+        const closeDiv = document.createElement("div");
+
+        closeDiv.setAttribute("class", "close-icon")
+
+        const closeIcon = document.createElement("i")
+
+        closeIcon.setAttribute("class", "closemodal fa-solid fa-x")
+
+        closeDiv.appendChild(closeIcon)
+
+
+        const arrowDiv = document.createElement("div");
+
+        arrowDiv.setAttribute("class", "arrow-icon")
+
+        const arrowIcon = document.createElement("i")
+
+        arrowIcon.setAttribute("class", "fa-solid fa-arrow-left")
+
+        arrowDiv.appendChild(arrowIcon)
+
+
+        const iconsDiv = document.createElement("div")
+
+        iconsDiv.setAttribute("id", "iconsDiv")
+
+
+        const modalTitle = document.createElement("h1")
+
+        modalTitle.setAttribute("class", "modaltitle")
+
+        modalTitle.append("Ajout photo")
+
+
+        const addWorkForm = document.createElement("form")
+
+        addWorkForm.setAttribute("id", "submitwork")
+
+        addWorkForm.setAttribute("action", "#")
+
+        addWorkForm.setAttribute("method", "post")
+
+
+
+        const addImageWrapper = document.createElement("div")
+
+        addImageWrapper.setAttribute("id", "imagewrapper")
+
+        const addImageButton = document.createElement("button")
+
+        addImageButton.setAttribute("id", "imagebutton")
+
+
+        const labelImage = document.createElement("label")
+
+        labelImage.append("+ Ajouter photo")
+
+        labelImage.setAttribute("for", "addpicture")
+
+        labelImage.setAttribute("id", "addpicturelabel")
+
+        const inputImage = document.createElement("input")
+
+        inputImage.setAttribute("id", "addpicture")
+
+        inputImage.setAttribute("type", "file")
+
+        inputImage.setAttribute("name", "addpicture")
+
+        inputImage.setAttribute("accept", "image/png, image/jpg")
+
+        inputImage.setAttribute("style", "visibility:hidden;")
+
+
+        const addImageIcon = document.createElement("i")
+
+        addImageIcon.setAttribute("id", "addimageicon")
+
+        addImageIcon.setAttribute("class", "fa-thin fa-image")
+
+
+
+        const addImageParagraph = document.createElement("p")
+
+        addImageParagraph.append("jpg, png : 4mo max")
+
+
+        addImageButton.appendChild(labelImage)
+        addImageWrapper.appendChild(addImageIcon)
+        addImageWrapper.appendChild(addImageButton)
+        addImageWrapper.appendChild(inputImage)
+        addImageWrapper.appendChild(addImageParagraph)
+        
+
+
+
+        const labelTitle = document.createElement("label")
+
+        labelTitle.setAttribute("for", "addtitle")
+
+        labelTitle.append("Titre")
+
+        const inputTitle = document.createElement("input")
+
+        inputTitle.setAttribute("type", "text")
+
+        inputTitle.setAttribute("name", "addtitle")
+
+        inputTitle.setAttribute("id", "addtitle")
+
+
+        const labelCategory = document.createElement("label")
+
+        labelCategory.setAttribute("for", "choosecategory")
+
+        labelCategory.append("Catégorie")
+
+        const selectCategory = document.createElement("select")
+
+        selectCategory.setAttribute("name", "choosecategory")
+
+        selectCategory.setAttribute("id", "choosecategory")
+
+
+        const defaultValue = document.createElement("option")
+
+        defaultValue.setAttribute("value", "")
+
+        selectCategory.appendChild(defaultValue)
+
+
+        const optionObjets = document.createElement("option")
+
+        optionObjets.setAttribute("value", "objets")
+
+        optionObjets.append("Objets")
+
+        selectCategory.appendChild(optionObjets)
+
+
+        const optionAppartements = document.createElement("option")
+
+        optionAppartements.setAttribute("value", "appartements")
+
+        optionAppartements.append("Appartements")
+
+        selectCategory.appendChild(optionAppartements)
+
+
+        const optionHotelsEtRestaurants = document.createElement("option")
+
+        optionHotelsEtRestaurants.setAttribute("value", "hotelsetrestaurants")
+
+        optionHotelsEtRestaurants.append("Hôtels & restaurants")
+
+        selectCategory.appendChild(optionHotelsEtRestaurants)
+
+
+        const secondModalline = document.createElement("div");
+
+        secondModalline.setAttribute("class", "secondmodalline")
+
+
+        const submitProject = document.createElement("input");
+
+        submitProject.setAttribute("id", "submitproject")
+
+        submitProject.setAttribute("type", "submit")
+
+        submitProject.setAttribute("value", "Valider")
+
+
+        const addWorkWrapper = document.createElement("div")
+
+        addWorkWrapper.setAttribute("id", "addworkwrapper")
 
 
 
 
+        addWorkForm.appendChild(addImageWrapper)
+        addWorkForm.appendChild(labelTitle)
+        addWorkForm.appendChild(inputTitle)
+        addWorkForm.appendChild(labelCategory)
+        addWorkForm.appendChild(selectCategory)
+        addWorkForm.appendChild(secondModalline)
+        addWorkForm.appendChild(submitProject)
 
+
+        iconsDiv.appendChild(arrowDiv)
+        iconsDiv.appendChild(closeDiv)
+
+        modalWrapper.appendChild(iconsDiv)
+        addWorkWrapper.appendChild(modalTitle)
+        addWorkWrapper.appendChild(addWorkForm)
+
+        modalWrapper.appendChild(addWorkWrapper)
 
     })
 
+    // document.querySelector(".arrow-icone").addEventListener("click", function () {
 
+    // })
 
 }
 
