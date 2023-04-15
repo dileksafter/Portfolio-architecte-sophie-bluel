@@ -14,7 +14,6 @@ function initialize() {
         const email = document.querySelector("#email").value
         const password = document.querySelector("#motdepasse").value
 
-        //on parametre userData avec les donnees de l'API
         const userData = {
             email: email,
             password: password,
@@ -38,22 +37,22 @@ async function connexion(userData) {
     })
 
     //on sauvegarde les donnees de userId et du token de l'API pour l'autentification dans result 
-    if (response.status == 200) {
+    if (response.status === 200) {
         const result = await response.json()
 
-        //on sauvegarde le token d'authentification jusqu'a la deconnection
         window.localStorage.setItem("token", result.token)
 
-        //on reoriente lutilisateur vers la page d'acceuil en cas de connection
+        window.localStorage.setItem("userId", result.userId) //saving userId for adding works
+
         window.location.href = "http://localhost:5500/FrontEnd/";
     }
 
-    //mot de passe incorrect 
-    if (response.status == 401) {
+
+    if (response.status === 401) {
         alert("mot de passe incorrect")
     }
 
-    //identifiant de connection incorrect
+
     if (response.status == 404) {
         alert("e-mail incorrect")
     }

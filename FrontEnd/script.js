@@ -208,14 +208,15 @@ function modalManagement() {
     }
 
     const closeModal = function (event) {
+        event.preventDefault()
         if (modal === null) return
 
         modal.style = "display:none"
         modal.setAttribute("aria-hidden", true)
         modal.removeAttribute("aria-modal")
-        // modal.removeEventListener("click", closeModal)
-        // modal.querySelector(".closemodal").removeEventListener("click", closeModal)
-        // modal.querySelector(".modal-wrapper").removeEventListener("click", stopPropagation)
+        modal.removeEventListener("click", closeModal)
+        modal.querySelector(".closemodal").removeEventListener("click", closeModal)
+        modal.querySelector(".modal-wrapper").removeEventListener("click", stopPropagation)
         modal = null
     }
 
@@ -311,7 +312,7 @@ function populateModal(projects) {
 
             const multiArrowsIcon = document.createElement("i")
 
-            multiArrowsIcon.setAttribute("class", "fa-sharp fa-solid fa-arrows-up-down-left-right")
+            multiArrowsIcon.setAttribute("class", "fa-solid fa-arrows-up-down-left-right")
 
             const multiArrowsButton = document.createElement("button")
 
@@ -342,32 +343,66 @@ function populateModal(projects) {
     }
 }
 
-function deleteWorks() {
+async function deleteWorks() {
 
     const trashButtons = document.querySelectorAll("#trashButton")
 
+
     for (let i = 0; i < trashButtons.length; i++) {
-        trashButtons[i].addEventListener("click", function () {
+        trashButtons[i].addEventListener("click", async function () {
 
-            const figureId = trashButtons[i].parentElement.getAttribute("id")
+            const userConfirmed = confirm('Êtes-vous sûr(e) de vouloir effectuer cette suppression ?');
 
-            const gallery = document.querySelector(".gallery")
+            if (userConfirmed) {
 
-            trashButtons[i].parentElement.remove()
+                const figureId = trashButtons[i].parentElement.getAttribute("id")
 
-            gallery.querySelector("#" + figureId).remove()
+                const gallery = document.querySelector(".gallery")
+
+                const response = await fetch("http://localhost:5678/api/works/" + figureId.replace("work", ""), {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${window.localStorage.getItem("token")}`,
+                        'Content-Type': 'application/json;charset=utf-8'
+                    },
+                })
+
+                if (response.status === 200) {
+
+                    trashButtons[i].parentElement.remove() //remove from modal 
+
+                    gallery.querySelector("#" + figureId).remove() //remove from galery
+
+
+                }
+
+                if (response.status == 401) {
+                    alert("La requête n'a pas été appliquée car il manque des informations d'authentification")
+                }
+                if (response.status == 500) {
+                    alert("Le serveur a rencontré un problème inattendu")
+                }
+            }
+
+
 
         })
     }
+
 }
 
 function addWorks() {
 
-    document.querySelector("#addProject").addEventListener("click", function () {
+    document.querySelector("#addProject").addEventListener("click", function (event) {
+
+        // reset modal
+        event.preventDefault()
 
         const modalWrapper = document.querySelector(".modal-wrapper")
 
         modalWrapper.innerHTML = ""
+
+        // setup modal
 
         const closeDiv = document.createElement("div");
 
@@ -379,22 +414,19 @@ function addWorks() {
 
         closeDiv.appendChild(closeIcon)
 
-
         const arrowDiv = document.createElement("div");
 
         arrowDiv.setAttribute("class", "arrow-icon")
 
         const arrowIcon = document.createElement("i")
 
-        arrowIcon.setAttribute("class", "fa-solid fa-arrow-left")
+        arrowIcon.setAttribute("class", "returnback fa-solid fa-arrow-left")
 
         arrowDiv.appendChild(arrowIcon)
-
 
         const iconsDiv = document.createElement("div")
 
         iconsDiv.setAttribute("id", "iconsDiv")
-
 
         const modalTitle = document.createElement("h1")
 
@@ -403,71 +435,66 @@ function addWorks() {
         modalTitle.append("Ajout photo")
 
 
+        // setup form
+
+
         const addWorkForm = document.createElement("form")
 
         addWorkForm.setAttribute("id", "submitwork")
-
-        addWorkForm.setAttribute("action", "#")
-
-        addWorkForm.setAttribute("method", "post")
-
+        // addWorkForm.setAttribute("action", "#")
+        // addWorkForm.setAttribute("method", "post")   
 
 
         const addImageWrapper = document.createElement("div")
-
         addImageWrapper.setAttribute("id", "imagewrapper")
 
-        const addImageButton = document.createElement("button")
-
-        addImageButton.setAttribute("id", "imagebutton")
-
-
         const labelImage = document.createElement("label")
+        labelImage.setAttribute("for", "image")
 
-        labelImage.append("+ Ajouter photo")
+        const iconLabel = document.createElement("i")
 
-        labelImage.setAttribute("for", "addpicture")
+        iconLabel.setAttribute("class", "fa-regular fa-image")
 
-        labelImage.setAttribute("id", "addpicturelabel")
+
+        labelImage.appendChild(iconLabel)
+
+        const buttonLabel = document.createElement("div")
+
+        buttonLabel.setAttribute("id", "buttonlabel")
+
+        buttonLabel.append("+ Ajouter photo")
+
+        labelImage.appendChild(buttonLabel)
+
+        const paragraphLabel = document.createElement("p")
+
+        paragraphLabel.append("jpg, png : 4mo max")
+
+        labelImage.appendChild(paragraphLabel)
 
         const inputImage = document.createElement("input")
 
-        inputImage.setAttribute("id", "addpicture")
+        inputImage.setAttribute("id", "image")
 
         inputImage.setAttribute("type", "file")
 
-        inputImage.setAttribute("name", "addpicture")
+        inputImage.setAttribute("name", "image")
 
-        inputImage.setAttribute("accept", "image/png, image/jpg")
+        inputImage.setAttribute("accept", "image/*")
 
-        inputImage.setAttribute("style", "visibility:hidden;")
+        inputImage.setAttribute("style", "display:none;")
 
-
-        const addImageIcon = document.createElement("i")
-
-        addImageIcon.setAttribute("id", "addimageicon")
-
-        addImageIcon.setAttribute("class", "fa-thin fa-image")
-
-
-
-        const addImageParagraph = document.createElement("p")
-
-        addImageParagraph.append("jpg, png : 4mo max")
-
-
-        addImageButton.appendChild(labelImage)
-        addImageWrapper.appendChild(addImageIcon)
-        addImageWrapper.appendChild(addImageButton)
+        addImageWrapper.appendChild(labelImage)
         addImageWrapper.appendChild(inputImage)
-        addImageWrapper.appendChild(addImageParagraph)
-        
 
+
+
+        //--------------------------------------------------
 
 
         const labelTitle = document.createElement("label")
 
-        labelTitle.setAttribute("for", "addtitle")
+        labelTitle.setAttribute("for", "title")
 
         labelTitle.append("Titre")
 
@@ -475,22 +502,22 @@ function addWorks() {
 
         inputTitle.setAttribute("type", "text")
 
-        inputTitle.setAttribute("name", "addtitle")
+        inputTitle.setAttribute("name", "title")
 
-        inputTitle.setAttribute("id", "addtitle")
+        inputTitle.setAttribute("id", "title")
 
 
         const labelCategory = document.createElement("label")
 
-        labelCategory.setAttribute("for", "choosecategory")
+        labelCategory.setAttribute("for", "category")
 
         labelCategory.append("Catégorie")
 
         const selectCategory = document.createElement("select")
 
-        selectCategory.setAttribute("name", "choosecategory")
+        selectCategory.setAttribute("name", "category")
 
-        selectCategory.setAttribute("id", "choosecategory")
+        selectCategory.setAttribute("id", "category")
 
 
         const defaultValue = document.createElement("option")
@@ -502,7 +529,7 @@ function addWorks() {
 
         const optionObjets = document.createElement("option")
 
-        optionObjets.setAttribute("value", "objets")
+        optionObjets.setAttribute("value", "1")
 
         optionObjets.append("Objets")
 
@@ -511,7 +538,7 @@ function addWorks() {
 
         const optionAppartements = document.createElement("option")
 
-        optionAppartements.setAttribute("value", "appartements")
+        optionAppartements.setAttribute("value", "2")
 
         optionAppartements.append("Appartements")
 
@@ -520,7 +547,7 @@ function addWorks() {
 
         const optionHotelsEtRestaurants = document.createElement("option")
 
-        optionHotelsEtRestaurants.setAttribute("value", "hotelsetrestaurants")
+        optionHotelsEtRestaurants.setAttribute("value", "3")
 
         optionHotelsEtRestaurants.append("Hôtels & restaurants")
 
@@ -566,16 +593,95 @@ function addWorks() {
 
         modalWrapper.appendChild(addWorkWrapper)
 
+        inputImage.addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (file) {
+              const reader = new FileReader();
+              reader.onload = function (e) {
+                labelImage.innerHTML = ''
+
+                const thumbnail = document.createElement('img');
+                thumbnail.src = e.target.result;
+                thumbnail.width = 129; 
+                thumbnail.height = 169; 
+                labelImage.appendChild(thumbnail); 
+              };
+              reader.readAsDataURL(file);
+            }
+          });
+
+
+        function updateSubmitButton() {
+            if (inputImage.files.length > 0 && inputTitle.value !== '' && selectCategory.value !== '') {
+
+                submitProject.style.backgroundColor = '#1D6154'; // Change the background color to green when the form is fully filled
+                // submitProject.disabled = false;
+            }
+
+            else {
+                submitProject.style.backgroundColor = '#A7A7A7'; // keeps the background color to gray when the form is not fully filled
+                // submitProject.disabled = true;
+            }
+
+        }
+
+        inputImage.addEventListener('change', updateSubmitButton);
+        inputTitle.addEventListener('input', updateSubmitButton);
+        selectCategory.addEventListener('change', updateSubmitButton);
+
+        updateSubmitButton();
+
+
+        //fermeture de la 2nde modale avec la croix
+        document.querySelector(".closemodal").addEventListener("click", async function (event) {
+            event.preventDefault()
+
+            let modal = document.querySelector("#modaleditgallery")
+
+            modal.style = "display:none"
+            modal.setAttribute("aria-hidden", true)
+            modal.removeAttribute("aria-modal")
+        })
+
+        const form = document.querySelector("#submitwork")
+        form.addEventListener("submit", async function (event) {
+
+            event.preventDefault()
+
+            const formData = new FormData(form)
+            await uploadWork(formData)
+
+        })
+
     })
-
-    // document.querySelector(".arrow-icone").addEventListener("click", function () {
-
-    // })
 
 }
 
 
+async function uploadWork(formData) {
 
+    const response = await fetch("http://localhost:5678/api/works", {
+        headers: {
+            'Authorization': `Bearer ${window.localStorage.getItem("token")}`, //pour faire apparaitre msgs d'erreur 
+            // Authorization: "test"
+        },
+        method: 'POST',
+        body: formData
+    })
+
+    if (response.status === 400) {
+        alert("Informations insuffisantes")
+    }
+
+    if (response.status === 401) {
+        alert("La requête n'a pas été appliquée car il manque des informations d'authentification")
+    }
+
+    if (response.status === 500) {
+        alert("Le serveur a rencontré un problème inattendu")
+    }
+
+}
 
 
 
@@ -590,8 +696,7 @@ async function initialize() {
         editPage()
         modalManagement()
         populateModal(projects)
-        //API delete works not functional
-        deleteWorks()
+        await deleteWorks()
         addWorks()
 
     }
