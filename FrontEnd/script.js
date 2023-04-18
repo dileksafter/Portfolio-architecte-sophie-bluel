@@ -343,13 +343,14 @@ function populateModal(projects) {
     }
 }
 
-async function deleteWorks() {
+function deleteWorks() {
 
     const trashButtons = document.querySelectorAll("#trashButton")
 
-
     for (let i = 0; i < trashButtons.length; i++) {
-        trashButtons[i].addEventListener("click", async function () {
+        trashButtons[i].addEventListener("click", async function (event) {
+
+            event.preventDefault()
 
             const userConfirmed = confirm('Êtes-vous sûr(e) de vouloir effectuer cette suppression ?');
 
@@ -368,11 +369,12 @@ async function deleteWorks() {
                 })
 
                 if (response.status === 200) {
-
                     trashButtons[i].parentElement.remove() //remove from modal 
-
                     gallery.querySelector("#" + figureId).remove() //remove from galery
-
+                    // projects = projects.filter((project) => { // filtre out the id that is removed
+                    //     return project.id !== figureId.replace("work", "") //returns all project that is not id that we removed
+                    // })
+                    // return projects
 
                 }
 
@@ -650,6 +652,7 @@ function addWorks() {
 
             const formData = new FormData(form)
             await uploadWork(formData)
+            
 
         })
 
@@ -690,20 +693,25 @@ async function initialize() {
 
     let projects = await getProjects()
 
+    window.addEventListener("onload", getProjects)
+    
+
     const verified = verification()
+
 
     if (verified) {
         editPage()
         modalManagement()
         populateModal(projects)
-        await deleteWorks()
-        addWorks()
+        deleteWorks() //
+        addWorks() //
 
     }
 
     addElements(projects) // la fonction initialize inclu l'appel a la fonction ajout d'elements a la gallerie 
 
     filterElements(projects) // la fonction initialize inclu l'appel a la fonction filtre les elements
+
 
 }
 
