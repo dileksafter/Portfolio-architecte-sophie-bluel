@@ -1,4 +1,4 @@
-//on declare la fonction qui recupere les donnees entrees par l'utilisateur dans le formulaire
+
 function initialize() {
 
     //on cible le fomulaire

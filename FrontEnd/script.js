@@ -16,9 +16,7 @@ function addElements(projects) {
 
         //creation d'elements dans la gallerie en html
         const newFigure = document.createElement("figure");
-
         const newImage = document.createElement("img");
-
         const newCaption = document.createElement("figcaption");
 
         //on accede a l'indice i des travaux recuperés pour configurer les parametres de l'image
@@ -34,7 +32,6 @@ function addElements(projects) {
         //on rattache la image et le titre a la figure
         newFigure.appendChild(newImage)
         newFigure.appendChild(newCaption)
-
 
         newFigure.setAttribute("id", "work" + projects[i].id)
     }
@@ -204,7 +201,6 @@ function modalManagement() {
         modal.addEventListener("click", closeModal)
         modal.querySelector(".closemodal").addEventListener("click", closeModal)
         modal.querySelector(".modal-wrapper").addEventListener("click", stopPropagation)
-
     }
 
     const closeModal = function (event) {
@@ -220,13 +216,13 @@ function modalManagement() {
         modal = null
     }
 
-
     let modal = null
     document.querySelector("#modalbutton").addEventListener("click", openModal)
-
 }
 
 function populateModal(projects) {
+
+    modalManagement()
 
     const closeDiv = document.createElement("div");
 
@@ -369,13 +365,11 @@ function deleteWorks() {
                 })
 
                 if (response.status === 200) {
-                    trashButtons[i].parentElement.remove() //remove from modal 
-                    gallery.querySelector("#" + figureId).remove() //remove from galery
-                    // projects = projects.filter((project) => { // filtre out the id that is removed
-                    //     return project.id !== figureId.replace("work", "") //returns all project that is not id that we removed
-                    // })
-                    // return projects
 
+                    trashButtons[i].parentElement.remove() //remove from modal 
+
+                    gallery.querySelector("#" + figureId).remove() //remove from galery
+ 
                 }
 
                 if (response.status == 401) {
@@ -393,18 +387,18 @@ function deleteWorks() {
 
 }
 
-function addWorks() {
+//creation de la 2nde modale
+function addWorks(projects) {
 
     document.querySelector("#addProject").addEventListener("click", function (event) {
-
-        // reset modal
+ 
         event.preventDefault()
 
         const modalWrapper = document.querySelector(".modal-wrapper")
 
+        //on vide le contenu
         modalWrapper.innerHTML = ""
 
-        // setup modal
 
         const closeDiv = document.createElement("div");
 
@@ -415,6 +409,7 @@ function addWorks() {
         closeIcon.setAttribute("class", "closemodal fa-solid fa-x")
 
         closeDiv.appendChild(closeIcon)
+
 
         const arrowDiv = document.createElement("div");
 
@@ -430,6 +425,7 @@ function addWorks() {
 
         iconsDiv.setAttribute("id", "iconsDiv")
 
+
         const modalTitle = document.createElement("h1")
 
         modalTitle.setAttribute("class", "modaltitle")
@@ -437,26 +433,22 @@ function addWorks() {
         modalTitle.append("Ajout photo")
 
 
-        // setup form
-
-
+        //creation du formulaiare d'ajout d'un projet
         const addWorkForm = document.createElement("form")
 
-        addWorkForm.setAttribute("id", "submitwork")
-        // addWorkForm.setAttribute("action", "#")
-        // addWorkForm.setAttribute("method", "post")   
-
+        addWorkForm.setAttribute("id", "submitwork") 
 
         const addImageWrapper = document.createElement("div")
+
         addImageWrapper.setAttribute("id", "imagewrapper")
 
         const labelImage = document.createElement("label")
+
         labelImage.setAttribute("for", "image")
 
         const iconLabel = document.createElement("i")
 
         iconLabel.setAttribute("class", "fa-regular fa-image")
-
 
         labelImage.appendChild(iconLabel)
 
@@ -490,10 +482,7 @@ function addWorks() {
         addImageWrapper.appendChild(inputImage)
 
 
-
-        //--------------------------------------------------
-
-
+        //creation label-input pour inserer titre et choisir categorie
         const labelTitle = document.createElement("label")
 
         labelTitle.setAttribute("for", "title")
@@ -507,7 +496,6 @@ function addWorks() {
         inputTitle.setAttribute("name", "title")
 
         inputTitle.setAttribute("id", "title")
-
 
         const labelCategory = document.createElement("label")
 
@@ -569,13 +557,9 @@ function addWorks() {
 
         submitProject.setAttribute("value", "Valider")
 
-
         const addWorkWrapper = document.createElement("div")
 
         addWorkWrapper.setAttribute("id", "addworkwrapper")
-
-
-
 
         addWorkForm.appendChild(addImageWrapper)
         addWorkForm.appendChild(labelTitle)
@@ -584,7 +568,6 @@ function addWorks() {
         addWorkForm.appendChild(selectCategory)
         addWorkForm.appendChild(secondModalline)
         addWorkForm.appendChild(submitProject)
-
 
         iconsDiv.appendChild(arrowDiv)
         iconsDiv.appendChild(closeDiv)
@@ -595,6 +578,28 @@ function addWorks() {
 
         modalWrapper.appendChild(addWorkWrapper)
 
+
+        //fleche qui permet de revenir sur la modale precedente
+        arrowIcon.addEventListener("click", function (){
+
+            modalWrapper.innerHTML = ""
+
+            populateModal(projects)
+            deleteWorks() 
+            addWorks(projects)
+
+            document.querySelector(".closemodal").addEventListener("click", async function (event) {
+                event.preventDefault()
+    
+                let modal = document.querySelector("#modaleditgallery")
+    
+                modal.style = "display:none"
+                modal.setAttribute("aria-hidden", true)
+                modal.removeAttribute("aria-modal")
+            })
+        })
+
+//creation de la photo miniature telechargee 
         inputImage.addEventListener('change', function (event) {
             const file = event.target.files[0];
             if (file) {
@@ -611,20 +616,16 @@ function addWorks() {
               reader.readAsDataURL(file);
             }
           });
-
-
+  
         function updateSubmitButton() {
             if (inputImage.files.length > 0 && inputTitle.value !== '' && selectCategory.value !== '') {
 
-                submitProject.style.backgroundColor = '#1D6154'; // Change the background color to green when the form is fully filled
-                // submitProject.disabled = false;
+                submitProject.style.backgroundColor = '#1D6154'; //changement de couleur si tous les champs sont remplis
             }
 
             else {
-                submitProject.style.backgroundColor = '#A7A7A7'; // keeps the background color to gray when the form is not fully filled
-                // submitProject.disabled = true;
+                submitProject.style.backgroundColor = '#A7A7A7'; //conserve la couleur si tous les champs ne sont pas remplis
             }
-
         }
 
         inputImage.addEventListener('change', updateSubmitButton);
@@ -652,21 +653,15 @@ function addWorks() {
 
             const formData = new FormData(form)
             await uploadWork(formData)
-            
-
         })
-
     })
-
 }
-
 
 async function uploadWork(formData) {
 
     const response = await fetch("http://localhost:5678/api/works", {
         headers: {
-            'Authorization': `Bearer ${window.localStorage.getItem("token")}`, //pour faire apparaitre msgs d'erreur 
-            // Authorization: "test"
+            'Authorization': `Bearer ${window.localStorage.getItem("token")}`, //faire apparaitre msgs d'erreur 
         },
         method: 'POST',
         body: formData
@@ -686,34 +681,27 @@ async function uploadWork(formData) {
 
 }
 
-
-
-//on declare la fonction qui affiche tous les travaux quand la page se charge  
 async function initialize() {
 
     let projects = await getProjects()
 
     window.addEventListener("onload", getProjects)
-    
 
     const verified = verification()
 
-
     if (verified) {
         editPage()
-        modalManagement()
         populateModal(projects)
-        deleteWorks() //
-        addWorks() //
+        deleteWorks() 
+        addWorks(projects)
 
     }
 
-    addElements(projects) // la fonction initialize inclu l'appel a la fonction ajout d'elements a la gallerie 
+    addElements(projects) 
 
-    filterElements(projects) // la fonction initialize inclu l'appel a la fonction filtre les elements
-
+    filterElements(projects)
 
 }
 
-initialize() //on appelle la fonction qui ajoutent les elements a la gallerie + qui les filtre grace aux boutons 
+initialize()
 
