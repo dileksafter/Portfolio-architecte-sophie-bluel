@@ -2,10 +2,10 @@
 function initialize() {
 
     //on cible le fomulaire
-    const buttonSubmit = document.querySelector("#submitform")
+    const submitForm = document.querySelector("#submitform")
 
     //on creait un evenement a l'action de validation des donnees rentrees par l'utilisateur
-    buttonSubmit.addEventListener("submit", function (event) {
+    submitForm.addEventListener("submit", function (event) {
 
         //non execution de l'action par defaut si l'évènement n'est pas explicitement géré
         event.preventDefault()
@@ -19,6 +19,7 @@ function initialize() {
             password: password,
         }
 
+        console.log(userData)
         //on appelle la fonction connexion qui execute les differents scenarios possibles lors de la connexion
         connexion(userData)
     })
@@ -36,22 +37,18 @@ async function connexion(userData) {
         body: JSON.stringify(userData)
     })
 
+    console.log(response)
     //on sauvegarde les donnees de userId et du token de l'API pour l'autentification dans result 
     if (response.status === 200) {
         const result = await response.json()
-
         window.localStorage.setItem("token", result.token)
-
         window.localStorage.setItem("userId", result.userId) //saving userId for adding works
-
-        window.location.href = "http://localhost:5500/FrontEnd/";
+        window.location.href = "index.html";
     }
-
 
     if (response.status === 401) {
         alert("mot de passe incorrect")
     }
-
 
     if (response.status == 404) {
         alert("e-mail incorrect")

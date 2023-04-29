@@ -7,14 +7,14 @@ async function getProjects() {
 }
 
 //on declare la fonction qui ajoute les travaux au html
-function addElements(projects) {
+function addElements(projects) { 
 
     const gallery = document.querySelector("#portfolio > .gallery");
 
     //creation d'une boucle for pour cibler chaque element du tableau
     for (let i = 0; i < projects.length; i++) {
 
-        //creation d'elements dans la gallerie en html
+        //creation d'elements dans la galerie en html
         const newFigure = document.createElement("figure");
         const newImage = document.createElement("img");
         const newCaption = document.createElement("figcaption");
@@ -298,7 +298,6 @@ function populateModal(projects) {
         newImage.setAttribute("src", projects[i].imageUrl)
         newImage.setAttribute("alt", projects[i].title)
 
-        //on rattache titre au contenu texte
         buttonEditer.append("éditer")
 
         //on rattache la figure a la gallerie
@@ -369,7 +368,6 @@ function deleteWorks() {
                     trashButtons[i].parentElement.remove() //remove from modal 
 
                     gallery.querySelector("#" + figureId).remove() //remove from galery
- 
                 }
 
                 if (response.status == 401) {
@@ -379,12 +377,8 @@ function deleteWorks() {
                     alert("Le serveur a rencontré un problème inattendu")
                 }
             }
-
-
-
         })
     }
-
 }
 
 //creation de la 2nde modale
@@ -661,7 +655,7 @@ async function uploadWork(formData) {
 
     const response = await fetch("http://localhost:5678/api/works", {
         headers: {
-            'Authorization': `Bearer ${window.localStorage.getItem("token")}`, //faire apparaitre msgs d'erreur 
+            'Authorization': `Bearer ${window.localStorage.getItem("token")}`, //msgs d'erreur 
         },
         method: 'POST',
         body: formData
