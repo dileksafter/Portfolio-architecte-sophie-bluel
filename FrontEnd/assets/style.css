@@ -419,7 +419,7 @@ footer nav {
 	margin-left: 31px;
 }
 
-#editprojects button{
+#editprojects > button{
 	background-color: #fffef8;
 }
 

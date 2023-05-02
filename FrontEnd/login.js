@@ -47,11 +47,11 @@ async function connexion(userData) {
     }
 
     if (response.status === 401) {
-        alert("mot de passe incorrect")
+        alert("email ou mot de passe incorrect")
     }
 
     if (response.status == 404) {
-        alert("e-mail incorrect")
+        alert("e-mail ou mot de passe incorrect")
     }
 }
 
